@@ -882,7 +882,7 @@ class UrlParams {
     this.params.push(new IntParam('cy', model.cameraYaw));
     this.params.push(new IntParam('cp', model.cameraPitch));
     this.params.push(new IntParam('ce', model.exposure));
-    //this.params.push(new IntParam('cb', model.bloom));
+    this.params.push(new IntParam('cb', model.bloom));
     this.params.push(new BoolParam('hd', model.highDefinition));
     this.params.push(new BoolParam('hc', model.highContrast));
     this.params.push(new IntParam('or', model.startRadius));
@@ -2152,16 +2152,6 @@ class TextureManager {
     gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAX_LEVEL, 
                      MAX_STAR_TEXTURE_LOD);
 
-    this.starTexture2 = createTexture(gl, gl.TEXTURE_CUBE_MAP);
-    gl.bindTexture(gl.TEXTURE_CUBE_MAP, this.starTexture2);
-    gl.texStorage2D(gl.TEXTURE_CUBE_MAP, 11 - MAX_STAR_TEXTURE_LOD, gl.RGB9_E5, 
-                    2048 / (1 << (MAX_STAR_TEXTURE_LOD + 1)),
-                    2048 / (1 << (MAX_STAR_TEXTURE_LOD + 1)));
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, 
-                     gl.LINEAR_MIPMAP_LINEAR);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texParameterf(gl.TEXTURE_CUBE_MAP, glExt.TEXTURE_MAX_ANISOTROPY_EXT, 
-                     gl.getParameter(glExt.MAX_TEXTURE_MAX_ANISOTROPY_EXT));
 
     const base = 'gaia_sky_map';
     const prefixes = ['pos-x', 'neg-x', 'pos-y', 'neg-y', 'pos-z', 'neg-z'];
