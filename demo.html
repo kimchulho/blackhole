@@ -2032,7 +2032,7 @@ const loadNoiseTexture = function(gl, glExt, textureUrl) {
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, gl.RED, gl.UNSIGNED_BYTE, image);
     gl.generateMipmap(gl.TEXTURE_2D);
   });
-  image.src = textureUrl;
+  image.src = 'https://kimchulho.github.io/blackhole/rocket_base_color.png';
   return texture;
 }
 
