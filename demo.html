@@ -352,7 +352,7 @@ html, body {
 }
 
     </style>
-    <script>
+    <script crossorigin="anonymous">
 
 BlackHoleShaderDemoApp = {};
 (function() {
@@ -1541,10 +1541,10 @@ class RocketManager {
     this.rocketIndexBuffer = undefined;
     this.exhaustVertexBuffer = undefined;
     this.exhaustIndexBuffer = undefined;
-    this.baseColorTexture = loadRocketTexture(gl, 'https://kimchulho.github.io/blackhole/rocket_base_color.png');
+    this.baseColorTexture = loadRocketTexture(gl, 'rocket_base_color.png');
     this.occlusionRoughnessMetallicTexture =
-        loadRocketTexture(gl, 'https://kimchulho.github.io/blackhole/rocket_occlusion_roughness_metallic.png');
-    this.normalMapTexture = loadRocketTexture(gl, 'https://kimchulho.github.io/blackhole/rocket_normal.png');
+        loadRocketTexture(gl, 'rocket_occlusion_roughness_metallic.png');
+    this.normalMapTexture = loadRocketTexture(gl, 'rocket_normal.png');
 
     this.createRocketProgram(gl);
     this.createExhaustProgram(gl);
@@ -3342,7 +3342,7 @@ window.addEventListener('DOMContentLoaded', () => {
     </script>
   </head>
   <body>
-    <script type="x-shader/x-vertex" id="exhaust_vertex_shader">
+    <script type="x-shader/x-vertex" id="exhaust_vertex_shader" crossorigin="anonymous">
 
 uniform mat4 model_view_proj_matrix;
 
@@ -3355,7 +3355,7 @@ void main() {
   gl_Position = model_view_proj_matrix * vec4(position, 1.0);
 }
     </script>
-    <script type="x-shader/x-fragment" id="exhaust_fragment_shader">
+    <script type="x-shader/x-fragment" id="exhaust_fragment_shader" crossorigin="anonymous">
 
 uniform vec3 camera;
 
@@ -3402,7 +3402,7 @@ void main() {
   }
 }
     </script>
-    <script type="x-shader/x-vertex" id="rocket_vertex_shader">
+    <script type="x-shader/x-vertex" id="rocket_vertex_shader" crossorigin="anonymous">
 
 uniform mat4 model_view_proj_matrix;
 
@@ -3427,7 +3427,7 @@ void main() {
   gl_Position = model_view_proj_matrix * vec4(position, 1.0);
 }
     </script>
-    <script type="x-shader/x-fragment" id="rocket_fragment_shader">
+    <script type="x-shader/x-fragment" id="rocket_fragment_shader" crossorigin="anonymous">
 
 const float PI = 3.141592653589793;
 
@@ -3611,7 +3611,7 @@ void main() {
   frag_color = vec4(ImageBasedLighting(surface, v) * surface.occlusion, 1.0);
 }
     </script>
-    <script type="x-shader/x-vertex" id="vertex_shader">
+    <script type="x-shader/x-vertex" id="vertex_shader" crossorigin="anonymous">
 
 uniform vec3 camera_size;
 
@@ -3624,7 +3624,7 @@ void main() {
   gl_Position = vertex;
 }
     </script>
-    <script type="x-shader/x-fragment" id="fragment_shader">
+    <script type="x-shader/x-fragment" id="fragment_shader" crossorigin="anonymous">
 
 // The camera position, in Schwarzschild coordinates (p^t, p^r, p^theta, p^phi).
 uniform vec4 camera_position;
@@ -3782,7 +3782,7 @@ void main() {
   frag_color.a = 1.0;
 }
     </script>
-    <script type="x-shader/x-fragment" id="black_hole_shader">
+    <script type="x-shader/x-fragment" id="black_hole_shader" crossorigin="anonymous">
 
 
 // The types used in the main functions of our black hole shader. C++ equivalent
