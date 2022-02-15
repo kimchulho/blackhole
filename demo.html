@@ -1541,10 +1541,10 @@ class RocketManager {
     this.rocketIndexBuffer = undefined;
     this.exhaustVertexBuffer = undefined;
     this.exhaustIndexBuffer = undefined;
-    this.baseColorTexture = loadRocketTexture(gl, 'rocket_base_color.png');
+    this.baseColorTexture = loadRocketTexture(gl, 'https://kimchulho.github.io/blackhole/rocket_base_color.png');
     this.occlusionRoughnessMetallicTexture =
-        loadRocketTexture(gl, 'rocket_occlusion_roughness_metallic.png');
-    this.normalMapTexture = loadRocketTexture(gl, 'rocket_normal.png');
+        loadRocketTexture(gl, 'https://kimchulho.github.io/blackhole/rocket_occlusion_roughness_metallic.png');
+    this.normalMapTexture = loadRocketTexture(gl, 'https://kimchulho.github.io/blackhole/rocket_normal.png');
 
     this.createRocketProgram(gl);
     this.createExhaustProgram(gl);
@@ -2060,7 +2060,7 @@ class TextureManager {
     const ext = gl.getExtension('EXT_texture_filter_anisotropic');
     this.loadTextures(ext);
     this.loadStarTextures(ext);
-    this.noiseTexture = loadNoiseTexture(gl, ext, 'noise_texture.png');
+    this.noiseTexture = loadNoiseTexture(gl, ext, 'https://kimchulho.github.io/blackhole/noise_texture.png');
 
     document.body.addEventListener('keypress', (e) => this.onKeyPress(e)); 
   }
