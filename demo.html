@@ -2032,7 +2032,7 @@ const loadNoiseTexture = function(gl, glExt, textureUrl) {
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, gl.RED, gl.UNSIGNED_BYTE, image);
     gl.generateMipmap(gl.TEXTURE_2D);
   });
-  image.src = 'https://kimchulho.github.io/blackhole/rocket_base_color.png';
+  image.src = textureUrl;
   return texture;
 }
 
@@ -2060,7 +2060,7 @@ class TextureManager {
     const ext = gl.getExtension('EXT_texture_filter_anisotropic');
     this.loadTextures(ext);
     this.loadStarTextures(ext);
-    this.noiseTexture = loadNoiseTexture(gl, ext, 'https://kimchulho.github.io/blackhole/rocket_base_color.png');
+    this.noiseTexture = loadRocketTexture(gl, 'https://kimchulho.github.io/blackhole/rocket_base_color.png');
 
     document.body.addEventListener('keypress', (e) => this.onKeyPress(e)); 
   }
