@@ -2162,7 +2162,7 @@ class TextureManager {
     gl.texParameterf(gl.TEXTURE_CUBE_MAP, glExt.TEXTURE_MAX_ANISOTROPY_EXT, 
                      gl.getParameter(glExt.MAX_TEXTURE_MAX_ANISOTROPY_EXT));
 
-    const base = '../../gaia_sky_map';
+    const base = 'gaia_sky_map';
     const prefixes = ['pos-x', 'neg-x', 'pos-y', 'neg-y', 'pos-z', 'neg-z'];
     const targets = cubeMapTargets(gl);
     for (let l = 0; l <= 4; ++l) {
