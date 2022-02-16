@@ -3135,11 +3135,11 @@ class SettingsPanel {
     this.model = model;
     this.model.addListener(this);
 
-    if (window.devicePixelRatio <= 1) {
+
       const highDefinitionDiv =
           this.rootElement.querySelector('#sp_high_definition_div');
       highDefinitionDiv.classList.toggle('sp-hidden', true);
-    }
+
 
     this.cameraTarget = this.rootElement.querySelector('#sp_target_container');
     this.exposure =
