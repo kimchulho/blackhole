@@ -2060,7 +2060,7 @@ class TextureManager {
 
     const ext = gl.getExtension('EXT_texture_filter_anisotropic');
     this.loadTextures(ext);
-    //this.loadStarTextures(ext);
+    this.loadStarTextures(ext);
     this.noiseTexture = loadNoiseTexture(gl, ext, 'noise_texture.png');
 
     document.body.addEventListener('keypress', (e) => this.onKeyPress(e)); 
