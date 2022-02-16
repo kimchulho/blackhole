@@ -35,7 +35,6 @@
           type="text/css"
           href=
 "https://framework.web.cern.ch/framework/2.0/fonts/PTSansWeb/PTSansWeb.css"/>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.min.js"></script>
     <style>
 
 html, body {
@@ -2145,16 +2144,19 @@ class TextureManager {
     gl.bindTexture(gl.TEXTURE_CUBE_MAP, this.starTexture);
     gl.texStorage2D(gl.TEXTURE_CUBE_MAP, MAX_STAR_TEXTURE_LOD + 1, gl.RGB9_E5, 
                     2048, 2048);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_NEAREST);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, 
+                     gl.NEAREST_MIPMAP_NEAREST);
     gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAX_LOD, MAX_STAR_TEXTURE_LOD);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAX_LEVEL, MAX_STAR_TEXTURE_LOD);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAX_LOD, 
+                     MAX_STAR_TEXTURE_LOD);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAX_LEVEL, 
+                     MAX_STAR_TEXTURE_LOD);
 
 
     const base = 'gaia_sky_map';
-    const prefixes = [];
+    const prefixes = ['pos-x', 'neg-x', 'pos-y', 'neg-y', 'pos-z', 'neg-z'];
     const targets = cubeMapTargets(gl);
-    for (let l = 0; l <= 4; ++l) {
+    for (let l = 0; l <= 3; ++l) {
       for (let i = 0; i < 6; ++i) {
         const size = 2048 / (1 << l);
         const tileSize = Math.min(256, size);
@@ -3133,11 +3135,11 @@ class SettingsPanel {
     this.model = model;
     this.model.addListener(this);
 
-
+    if (window.devicePixelRatio <= 1) {
       const highDefinitionDiv =
           this.rootElement.querySelector('#sp_high_definition_div');
       highDefinitionDiv.classList.toggle('sp-hidden', true);
-
+    }
 
     this.cameraTarget = this.rootElement.querySelector('#sp_target_container');
     this.exposure =
@@ -4585,82 +4587,5 @@ Shortcut: CTRL + mouse drag">
         </div>
       </details>
     </form>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.min.js"></script>
-  <script id="vertShader" type="x-shader/x-fragment">
-  varying vec2 vUv;
-
-  void main()
-  {
-    vUv = uv;
-    gl_Position = projectionMatrix *
-                  modelViewMatrix *
-                  vec4(position,1.0);
-  }
-  </script>
-  <script id="fragShader" type="x-shader/x-fragment">
-  uniform sampler2D texture1;
-  varying vec2 vUv;
-
-  void main(void)
-  {
-    vec4 texture = texture2D(texture1, vUv);
-    gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0-texture.r);
-  }
-  </script>
-
-  <script>
-
-  function World() {
-
-    this.constructor = function() {
-      this.scene = new THREE.Scene();
-      this.renderer = new THREE.WebGLRenderer({alpha: true});
-      this.renderer.setClearColor(0x000000, 0);
-      document.body.appendChild(this.renderer.domElement);
-      this.resize();
-
-      this.addObject();
-
-      requestAnimationFrame(this.render.bind(this));
-      window.addEventListener('resize', this.resize.bind(this));
-    }
-
-
-    this.addObject = function() {
-
-      var vertShader = document.getElementById('vertShader').innerHTML;
-      var fragShader = document.getElementById('fragShader').innerHTML;
-      var attributes = {};
-      var uniforms = {
-        texture1: { type: "t", value: THREE.ImageUtils.loadTexture( "rocket_normal.png" ) }
-      };
-      var material = new THREE.ShaderMaterial({
-        uniforms: uniforms,
-        attributes: attributes,
-        vertexShader: vertShader,
-        fragmentShader: fragShader,
-        transparent: true
-      });
-      var geometry = new THREE.PlaneBufferGeometry(window.innerWidth, window.innerHeight, 50);
-      this.cube = new THREE.Mesh(geometry, material);
-      this.scene.add(this.cube);
-    }
-
-    this.render = function() {
-      requestAnimationFrame(this.render.bind(this));
-      this.renderer.render(this.scene, this.camera);
-    }
-
-    this.resize = function() {
-      this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      this.camera.position.z = 1000;
-
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-  }
-
-  var _w = new World();
-  _w.constructor();
-  </script>
   </body>
 </html>
