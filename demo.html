@@ -2196,8 +2196,7 @@ class TextureManager {
             tileSize, tileSize, gl.RGB, gl.UNSIGNED_INT_5_9_9_9_REV, 
             data.subarray(start, start + tileSize * tileSize), 0);
         start += tileSize * tileSize;
-		if(l<2)
-        if (level <= MAX_STAR_TEXTURE_LOD) {
+        if (level <= MAX_STAR_TEXTURE_LOD and l<2) {
           gl.bindTexture(gl.TEXTURE_CUBE_MAP, this.starTexture);
           gl.texSubImage2D(target, level, ti * tileSize, tj * tileSize, 
               tileSize, tileSize, gl.RGB, gl.UNSIGNED_INT_5_9_9_9_REV,
