@@ -507,7 +507,7 @@ class Model {
         new QuantizedValue(this, (x) => 2 * Math.PI * (x - 0.5), 1800, 3600);
     this.stars =
         new BooleanValue(this, true);
-
+    this.starsMatrix = undefined;
 
     // The current state of the camera (i.e. the observer) motion.
     this.state = State.STOPPED;
@@ -627,13 +627,26 @@ class Model {
   }
 
   updateDerivedValues() {
+    this.updateStarsMatrix();
     this.updateCameraCoordinates();
     this.updateCameraAndRocketLorentzTransforms();
     this.updateCameraAndRocketReferenceFrames();
     this.updateOrbitInfo();
   }
 
-
+  updateStarsMatrix() {
+    const cy = Math.cos(this.starsYaw.getValue() + Math.PI);
+    const sy = Math.sin(this.starsYaw.getValue() + Math.PI);
+    const cp = Math.cos(this.starsPitch.getValue());
+    const sp = Math.sin(this.starsPitch.getValue());
+    const cr = Math.cos(this.starsRoll.getValue());
+    const sr = Math.sin(this.starsRoll.getValue());
+    this.starsMatrix = [
+                     cp * cy,                cp * sy,     -sp,
+      sr * sp * cy - cr * sy, sr * sp * sy + cr * cy, sr * cp,
+      cr * sp * cy + sr * sy, cr * sp * sy - sr * cy, cr * cp
+    ];
+  }
 
   updateCameraCoordinates() {
     const r0 = this.startRadius.getValue();
@@ -2184,17 +2197,9 @@ class TextureManager {
             data.subarray(start, start + tileSize * tileSize), 0);
         start += tileSize * tileSize;
         if (level <= MAX_STAR_TEXTURE_LOD) {
-			if(level>1)
-				continue;
           gl.bindTexture(gl.TEXTURE_CUBE_MAP, this.starTexture);
           gl.texSubImage2D(target, level, ti * tileSize, tj * tileSize, 
               tileSize, tileSize, gl.RGB, gl.UNSIGNED_INT_5_9_9_9_REV,
-              data.subarray(start, start + tileSize * tileSize), 0);
-        } else {
-          gl.bindTexture(gl.TEXTURE_CUBE_MAP, this.starTexture2);
-          gl.texSubImage2D(target, level - (MAX_STAR_TEXTURE_LOD + 1), 
-              ti * tileSize, tj * tileSize, tileSize, tileSize,
-              gl.RGB, gl.UNSIGNED_INT_5_9_9_9_REV, 
               data.subarray(start, start + tileSize * tileSize), 0);
         }
         start += tileSize * tileSize;
@@ -2562,6 +2567,8 @@ class CameraView {
     gl.uniform1i(program.galaxyCubeTexture, 2);
     gl.uniform1i(program.starCubeTexture, 3);
     gl.uniform1i(program.starCubeTexture2, 4);
+    gl.uniformMatrix3fv(program.starsOrientation, false, 
+        this.model.starsMatrix);
     gl.uniform1f(program.minStarsLod, minLod);
     gl.uniform1i(program.blackBodyTexture, 5);
     gl.uniform1i(program.dopplerTexture, 6);
