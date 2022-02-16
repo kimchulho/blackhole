@@ -3904,7 +3904,7 @@ Angle TraceRay(IN(RayDeflectionTexture) ray_deflection_texture,
   Real s = sign(u_dot);
   Angle phi = deflection.x + (s == 1.0 ? pi - delta : delta) + s * alpha;
   Angle phi_apsis = deflection_apsis.x + pi / 2.0;
-  phi0 = mod(phi, pi)-0.05;
+  phi0 = mod(phi, pi);
   TimedInverseDistance ui0 =
       LookupRayInverseRadius(ray_inverse_radius_texture, e_square, phi0);
   if (phi0 < phi_apsis) {
@@ -3946,7 +3946,7 @@ Angle TraceRay(IN(RayDeflectionTexture) ray_deflection_texture,
   Real u_dot = -u / tan(delta);
   Real e_square = u_dot * u_dot + u * u * (1.0 - u);
   return TraceRay(ray_deflection_texture, ray_inverse_radius_texture, u,
-                  u_dot, e_square, delta, alpha, u_ic, u_oc, u0, phi0, t0,
+                  u_dot, e_square, delta, alpha, u_ic, u_oc, u0, phi0+0.5, t0,
                   alpha0, u1, phi1, t1, alpha1);
 }
 
