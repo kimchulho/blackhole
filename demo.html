@@ -2196,12 +2196,13 @@ class TextureManager {
             tileSize, tileSize, gl.RGB, gl.UNSIGNED_INT_5_9_9_9_REV, 
             data.subarray(start, start + tileSize * tileSize), 0);
         start += tileSize * tileSize;
-        if (level <= MAX_STAR_TEXTURE_LOD) {
-          gl.bindTexture(gl.TEXTURE_CUBE_MAP, this.starTexture);
-          gl.texSubImage2D(target, level, ti * tileSize, tj * tileSize, 
-              tileSize, tileSize, gl.RGB, gl.UNSIGNED_INT_5_9_9_9_REV,
+        
+          gl.bindTexture(gl.TEXTURE_CUBE_MAP, this.starTexture2);
+          gl.texSubImage2D(target, level - (MAX_STAR_TEXTURE_LOD + 1), 
+              ti * tileSize, tj * tileSize, tileSize, tileSize,
+              gl.RGB, gl.UNSIGNED_INT_5_9_9_9_REV, 
               data.subarray(start, start + tileSize * tileSize), 0);
-        }
+        
         start += tileSize * tileSize;
         level += 1;
         tileSize /= 2;
