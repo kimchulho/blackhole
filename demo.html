@@ -2607,7 +2607,6 @@ class CameraView {
 
     requestAnimationFrame(() => this.onRender());
     this.checkFrameRate();
-	this.model.stars.setValue(false);
   }
 
   checkFrameRate() {
@@ -3947,7 +3946,7 @@ Angle TraceRay(IN(RayDeflectionTexture) ray_deflection_texture,
   Real u_dot = -u / tan(delta);
   Real e_square = u_dot * u_dot + u * u * (1.0 - u);
   return TraceRay(ray_deflection_texture, ray_inverse_radius_texture, u,
-                  u_dot, e_square, delta, alpha, u_ic, u_oc, u0, phi0, t0,
+                  u_dot, e_square, delta, alpha, u_ic, u_oc, u0, phi0+0.5, t0,
                   alpha0, u1, phi1, t1, alpha1);
 }
 
