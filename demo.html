@@ -2156,8 +2156,8 @@ class TextureManager {
     const base = 'gaia_sky_map';
     const prefixes = ['pos-x', 'neg-x', 'pos-y', 'neg-y', 'pos-z', 'neg-z'];
     const targets = cubeMapTargets(gl);
-    for (let l = 0; l <= 3; ++l) {
-      for (let i = 0; i < 6; ++i) {
+    for (let l = 4; l <= 4; ++l) {
+      for (let i = 0; i < 5; ++i) {
         const size = 2048 / (1 << l);
         const tileSize = Math.min(256, size);
         const numTiles = size / tileSize;
