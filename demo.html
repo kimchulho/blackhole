@@ -2060,7 +2060,7 @@ class TextureManager {
 
     const ext = gl.getExtension('EXT_texture_filter_anisotropic');
     this.loadTextures(ext);
-    this.loadStarTextures(ext);
+    //this.loadStarTextures(ext);
     this.noiseTexture = loadNoiseTexture(gl, ext, 'noise_texture.png');
 
     document.body.addEventListener('keypress', (e) => this.onKeyPress(e)); 
@@ -2200,6 +2200,12 @@ class TextureManager {
           gl.bindTexture(gl.TEXTURE_CUBE_MAP, this.starTexture);
           gl.texSubImage2D(target, level, ti * tileSize, tj * tileSize, 
               tileSize, tileSize, gl.RGB, gl.UNSIGNED_INT_5_9_9_9_REV,
+              data.subarray(start, start + tileSize * tileSize), 0);
+        } else {
+          gl.bindTexture(gl.TEXTURE_CUBE_MAP, this.starTexture2);
+          gl.texSubImage2D(target, level - (MAX_STAR_TEXTURE_LOD + 1), 
+              ti * tileSize, tj * tileSize, tileSize, tileSize,
+              gl.RGB, gl.UNSIGNED_INT_5_9_9_9_REV, 
               data.subarray(start, start + tileSize * tileSize), 0);
         }
         start += tileSize * tileSize;
