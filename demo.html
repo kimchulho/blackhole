@@ -352,7 +352,7 @@ html, body {
 }
 
     </style>
-    <script crossorigin="anonymous">
+    <script>
 
 BlackHoleShaderDemoApp = {};
 (function() {
@@ -1514,12 +1514,12 @@ const loadRocketTexture = function(gl, textureUrl) {
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER,
-                   gl.LINEAR_MIPMAP_LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
   gl.texParameterf(gl.TEXTURE_2D, glExt.TEXTURE_MAX_ANISOTROPY_EXT, 
                    gl.getParameter(glExt.MAX_TEXTURE_MAX_ANISOTROPY_EXT));
   const image = new Image();
+  image.crossOrigin="anonymous";
   image.addEventListener('load', function() {
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
@@ -1541,15 +1541,15 @@ class RocketManager {
     this.rocketIndexBuffer = undefined;
     this.exhaustVertexBuffer = undefined;
     this.exhaustIndexBuffer = undefined;
-    this.baseColorTexture = loadRocketTexture(gl, 'rocket_base_color.png');
+    this.baseColorTexture = loadRocketTexture(gl, 'https://kimchulho.github.io/blackhole/rocket_base_color.png');
     this.occlusionRoughnessMetallicTexture =
-        loadRocketTexture(gl, 'rocket_occlusion_roughness_metallic.png');
-    this.normalMapTexture = loadRocketTexture(gl, 'rocket_normal.png');
+        loadRocketTexture(gl, 'https://kimchulho.github.io/blackhole/rocket_occlusion_roughness_metallic.png');
+    this.normalMapTexture = loadRocketTexture(gl, 'https://kimchulho.github.io/blackhole/rocket_normal.png');
 
     this.createRocketProgram(gl);
     this.createExhaustProgram(gl);
     this.createEnvMap(gl);
-    loadRocketMesh('rocket.dat', 
+    loadRocketMesh('https://kimchulho.github.io/blackhole/rocket.dat', 
         (vertices, indices) => this.createRocketBuffers(vertices, indices));
     this.createExhaustBuffers(gl);
   }
@@ -1561,8 +1561,7 @@ class RocketManager {
     gl.bindTexture(gl.TEXTURE_CUBE_MAP, this.envMapTexture);
     gl.texStorage2D(gl.TEXTURE_CUBE_MAP, ENV_MAP_LEVELS, gl.RGBA16F,
         ENV_MAP_SIZE, ENV_MAP_SIZE);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER,
-                     gl.LINEAR_MIPMAP_LINEAR);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
     gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     const glExt = gl.getExtension('EXT_texture_filter_anisotropic');
     gl.texParameterf(gl.TEXTURE_CUBE_MAP, glExt.TEXTURE_MAX_ANISOTROPY_EXT, 
@@ -2021,8 +2020,7 @@ const loadNoiseTexture = function(gl, glExt, textureUrl) {
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER,
-                   gl.LINEAR_MIPMAP_LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
   gl.texParameterf(gl.TEXTURE_2D, glExt.TEXTURE_MAX_ANISOTROPY_EXT, 
                    gl.getParameter(glExt.MAX_TEXTURE_MAX_ANISOTROPY_EXT));
@@ -2060,8 +2058,9 @@ class TextureManager {
 
     const ext = gl.getExtension('EXT_texture_filter_anisotropic');
     this.loadTextures(ext);
+	// 별로드
     this.loadStarTextures(ext);
-    this.noiseTexture = loadNoiseTexture(gl, ext, 'noise_texture.png');
+    this.noiseTexture = loadNoiseTexture(gl, ext, 'https://kimchulho.github.io/blackhole/noise_texture.png');
 
     document.body.addEventListener('keypress', (e) => this.onKeyPress(e)); 
   }
@@ -2069,7 +2068,7 @@ class TextureManager {
   loadTextures(ext) {
     const gl = this.gl;
 
-    loadTextureData('deflection.dat', (data) => {
+    loadTextureData('https://kimchulho.github.io/blackhole/deflection.dat', (data) => {
       this.rayDeflectionTexture = createTexture(gl, gl.TEXTURE_2D);
       this.rayDeflectionTexture.width = data[0];
       this.rayDeflectionTexture.height = data[1];
@@ -2077,7 +2076,7 @@ class TextureManager {
                     gl.RG, gl.FLOAT, data.slice(2));
     });
 
-    loadTextureData('inverse_radius.dat', (data) => {
+    loadTextureData('https://kimchulho.github.io/blackhole/inverse_radius.dat', (data) => {
       this.rayInverseRadiusTexture = createTexture(gl, gl.TEXTURE_2D);
       this.rayInverseRadiusTexture.width = data[0];
       this.rayInverseRadiusTexture.height = data[1];
@@ -2089,27 +2088,28 @@ class TextureManager {
     gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_R, gl.CLAMP_TO_EDGE);
-    loadTextureData('doppler.dat', (data) => {
+    loadTextureData('https://kimchulho.github.io/blackhole/doppler.dat', (data) => {
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_3D, this.dopplerTexture);
       gl.texImage3D(gl.TEXTURE_3D, 0, gl.RGB32F, 64, 32, 64, 0, 
                     gl.RGB, gl.FLOAT, data);
     });
 
+// 디스크 색
     this.blackbodyTexture = createTexture(gl, gl.TEXTURE_2D);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    loadTextureData('black_body.dat', (data) => {
+    loadTextureData('https://kimchulho.github.io/blackhole/black_body.dat', (data) => {
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, this.blackbodyTexture);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB32F, 128, 1, 0,
                     gl.RGB, gl.FLOAT, data);
     });
 
+// 그리드 텍스쳐
     this.gridTexture = createTexture(gl, gl.TEXTURE_CUBE_MAP);
     gl.texStorage2D(gl.TEXTURE_CUBE_MAP, 10, gl.R8, 512, 512);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, 
-                     gl.LINEAR_MIPMAP_LINEAR);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
     gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);   
     gl.texParameterf(gl.TEXTURE_CUBE_MAP, ext.TEXTURE_MAX_ANISOTROPY_EXT, 
                      gl.getParameter(ext.MAX_TEXTURE_MAX_ANISOTROPY_EXT));
@@ -2134,29 +2134,35 @@ class TextureManager {
     this.galaxyTexture = createTexture(gl, gl.TEXTURE_CUBE_MAP);
     gl.bindTexture(gl.TEXTURE_CUBE_MAP, this.galaxyTexture);
     gl.texStorage2D(gl.TEXTURE_CUBE_MAP, 12, gl.RGB9_E5, 2048, 2048);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER,
-                     gl.LINEAR_MIPMAP_LINEAR);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
     gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);   
     gl.texParameterf(gl.TEXTURE_CUBE_MAP, glExt.TEXTURE_MAX_ANISOTROPY_EXT, 
                      gl.getParameter(glExt.MAX_TEXTURE_MAX_ANISOTROPY_EXT));
 
+	// 필수
     this.starTexture = createTexture(gl, gl.TEXTURE_CUBE_MAP);
     gl.bindTexture(gl.TEXTURE_CUBE_MAP, this.starTexture);
-    gl.texStorage2D(gl.TEXTURE_CUBE_MAP, MAX_STAR_TEXTURE_LOD + 1, gl.RGB9_E5, 
-                    2048, 2048);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, 
-                     gl.NEAREST_MIPMAP_NEAREST);
+    gl.texStorage2D(gl.TEXTURE_CUBE_MAP, MAX_STAR_TEXTURE_LOD + 1, gl.RGB9_E5, 2048, 2048);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_NEAREST); // 영향
     gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAX_LOD, 
-                     MAX_STAR_TEXTURE_LOD);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAX_LEVEL, 
-                     MAX_STAR_TEXTURE_LOD);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAX_LOD, MAX_STAR_TEXTURE_LOD);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAX_LEVEL, MAX_STAR_TEXTURE_LOD);
 
+	// 모르지만 영향 줌
+    this.starTexture2 = createTexture(gl, gl.TEXTURE_CUBE_MAP);
+    gl.bindTexture(gl.TEXTURE_CUBE_MAP, this.starTexture2);
+    gl.texStorage2D(gl.TEXTURE_CUBE_MAP, 11 - MAX_STAR_TEXTURE_LOD, gl.RGB9_E5, 
+                    2048 / (1 << (MAX_STAR_TEXTURE_LOD + 1)),
+                    2048 / (1 << (MAX_STAR_TEXTURE_LOD + 1)));
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameterf(gl.TEXTURE_CUBE_MAP, glExt.TEXTURE_MAX_ANISOTROPY_EXT, gl.getParameter(glExt.MAX_TEXTURE_MAX_ANISOTROPY_EXT));
 
-    const base = 'gaia_sky_map';
+    const base = 'https://kimchulho.github.io/blackhole/gaia_sky_map';
     const prefixes = ['pos-x', 'neg-x', 'pos-y', 'neg-y', 'pos-z', 'neg-z'];
+	//const prefixes = [ 'pos-z'];
     const targets = cubeMapTargets(gl);
-    for (let l = 3; l <= 4; ++l) {
+    for (let l = 0; l <= 4; ++l) {
       for (let i = 0; i < 6; ++i) {
         const size = 2048 / (1 << l);
         const tileSize = Math.min(256, size);
@@ -2182,6 +2188,7 @@ class TextureManager {
     }
   }
 
+	//문제
   loadStarTextureTile(l, ti, tj, i, target, url) {
     const gl = this.gl;
     const size = 2048 / (1 << l);
@@ -2196,6 +2203,8 @@ class TextureManager {
             tileSize, tileSize, gl.RGB, gl.UNSIGNED_INT_5_9_9_9_REV, 
             data.subarray(start, start + tileSize * tileSize), 0);
         start += tileSize * tileSize;
+
+		//별 확정
         if (level <= MAX_STAR_TEXTURE_LOD) {
           gl.bindTexture(gl.TEXTURE_CUBE_MAP, this.starTexture);
           gl.texSubImage2D(target, level, ti * tileSize, tj * tileSize, 
@@ -2352,6 +2361,8 @@ class ShaderManager {
             ${this.textureManager.rayInverseRadiusTexture.height};
         const float STARS_CUBE_MAP_SIZE =
             float(${this.model.grid.getValue() ? 128 : 2048});
+		
+		// 별반사
         const float MAX_FOOTPRINT_SIZE = float(4);
         const float MAX_FOOTPRINT_LOD =
             float(${this.model.grid.getValue() ? 0 : MAX_STAR_TEXTURE_LOD});\n`;
@@ -3333,7 +3344,7 @@ window.addEventListener('DOMContentLoaded', () => {
     </script>
   </head>
   <body>
-    <script type="x-shader/x-vertex" id="exhaust_vertex_shader" crossorigin="anonymous">
+    <script type="x-shader/x-vertex" id="exhaust_vertex_shader">
 
 uniform mat4 model_view_proj_matrix;
 
@@ -3346,7 +3357,7 @@ void main() {
   gl_Position = model_view_proj_matrix * vec4(position, 1.0);
 }
     </script>
-    <script type="x-shader/x-fragment" id="exhaust_fragment_shader" crossorigin="anonymous">
+    <script type="x-shader/x-fragment" id="exhaust_fragment_shader">
 
 uniform vec3 camera;
 
@@ -3393,7 +3404,7 @@ void main() {
   }
 }
     </script>
-    <script type="x-shader/x-vertex" id="rocket_vertex_shader" crossorigin="anonymous">
+    <script type="x-shader/x-vertex" id="rocket_vertex_shader">
 
 uniform mat4 model_view_proj_matrix;
 
@@ -3418,7 +3429,7 @@ void main() {
   gl_Position = model_view_proj_matrix * vec4(position, 1.0);
 }
     </script>
-    <script type="x-shader/x-fragment" id="rocket_fragment_shader" crossorigin="anonymous">
+    <script type="x-shader/x-fragment" id="rocket_fragment_shader">
 
 const float PI = 3.141592653589793;
 
@@ -3602,7 +3613,7 @@ void main() {
   frag_color = vec4(ImageBasedLighting(surface, v) * surface.occlusion, 1.0);
 }
     </script>
-    <script type="x-shader/x-vertex" id="vertex_shader" crossorigin="anonymous">
+    <script type="x-shader/x-vertex" id="vertex_shader">
 
 uniform vec3 camera_size;
 
@@ -3615,7 +3626,7 @@ void main() {
   gl_Position = vertex;
 }
     </script>
-    <script type="x-shader/x-fragment" id="fragment_shader" crossorigin="anonymous">
+    <script type="x-shader/x-fragment" id="fragment_shader">
 
 // The camera position, in Schwarzschild coordinates (p^t, p^r, p^theta, p^phi).
 uniform vec4 camera_position;
@@ -3672,6 +3683,8 @@ float RayTrace(float u, float u_dot, float e_square, float delta, float alpha,
                float u_ic, float u_oc, out float u0, out float phi0,
                out float t0, out float alpha0, out float u1, out float phi1,
                out float t1, out float alpha1) {
+
+//중력렌즈
 #if (LENSING == 1)
   return TraceRay(ray_deflection_texture, ray_inverse_radius_texture, u,
                   u_dot, e_square, delta, alpha, u_ic, u_oc, u0, phi0, t0,
@@ -3714,7 +3727,7 @@ vec3 StarTextureColor(vec3 dir, float lod, out vec2 sub_position) {
 }
 
 vec3 StarColor(vec3 dir, float lensing_amplification_factor) {
-#if (STARS == 1)
+#if (STARS == 1)//별
   dir = stars_orientation * dir;
   return DefaultStarColor(dir, lensing_amplification_factor, min_stars_lod);
 #else
@@ -3773,7 +3786,7 @@ void main() {
   frag_color.a = 1.0;
 }
     </script>
-    <script type="x-shader/x-fragment" id="black_hole_shader" crossorigin="anonymous">
+    <script type="x-shader/x-fragment" id="black_hole_shader">
 
 
 // The types used in the main functions of our black hole shader. C++ equivalent
@@ -3800,6 +3813,7 @@ void main() {
 
 const Real kMu = 4.0 / 27.0;
 
+//블랙홀
 Real GetRayDeflectionTextureUFromEsquare(const Real e_square) {
   if (e_square < kMu) {
     return 0.5 - sqrt(-log(1.0 - e_square / kMu) * (1.0 / 50.0));
@@ -3829,19 +3843,11 @@ Real GetTextureCoordFromUnitRange(const Real x, const int texture_size) {
   return 0.5 / Real(texture_size) + x * (1.0 - 1.0 / Real(texture_size));
 }
 
-TimedAngle LookupRayDeflection(IN(RayDeflectionTexture) ray_deflection_texture,
-                               const Real e_square, const Real u,
-                               OUT(TimedAngle) deflection_apsis) {
-  Real tex_u = GetTextureCoordFromUnitRange(
-      GetRayDeflectionTextureUFromEsquare(e_square),
-      RAY_DEFLECTION_TEXTURE_WIDTH);
-  Real tex_v = GetTextureCoordFromUnitRange(
-      GetRayDeflectionTextureVFromEsquareAndU(e_square, u),
-      RAY_DEFLECTION_TEXTURE_HEIGHT);
-  Real tex_v_apsis =
-      GetTextureCoordFromUnitRange(1.0, RAY_DEFLECTION_TEXTURE_HEIGHT);
-  deflection_apsis =
-      TimedAngle(texture(ray_deflection_texture, vec2(tex_u, tex_v_apsis)));
+TimedAngle LookupRayDeflection(IN(RayDeflectionTexture) ray_deflection_texture, const Real e_square, const Real u, OUT(TimedAngle) deflection_apsis) {
+  Real tex_u = GetTextureCoordFromUnitRange(GetRayDeflectionTextureUFromEsquare(e_square), RAY_DEFLECTION_TEXTURE_WIDTH);
+  Real tex_v = GetTextureCoordFromUnitRange(GetRayDeflectionTextureVFromEsquareAndU(e_square, u), RAY_DEFLECTION_TEXTURE_HEIGHT);
+  Real tex_v_apsis = GetTextureCoordFromUnitRange(1.0, RAY_DEFLECTION_TEXTURE_HEIGHT);
+  deflection_apsis = TimedAngle(texture(ray_deflection_texture, vec2(tex_u, tex_v_apsis)));
   return TimedAngle(texture(ray_deflection_texture, vec2(tex_u, tex_v)));
 }
 
@@ -3850,12 +3856,12 @@ Angle GetPhiUbFromEsquare(const Real e_square) {
   return (1.0 + e_square) / (1.0 / 3.0 + 2.0 * e_square * sqrt(e_square)) * rad;
 }
 
-
+//강착 디스크 반경
 Real GetRayInverseRadiusTextureUFromEsquare(const Real e_square) {
   return 1.0 / (1.0 + 6.0 * e_square);
 }
 
-
+//강착원반 관련
 TimedInverseDistance LookupRayInverseRadius(IN(RayInverseRadiusTexture)
                                                 ray_inverse_radius_texture,
                                             const Real e_square,
@@ -3879,6 +3885,8 @@ Real FilteredPulse(Real edge0, Real edge1, Real x, Real fw) {
   return max(0.0, (min(x1, edge1) - max(x0, edge0)) / fw);
 }
 
+// 영향
+//TraceRay(ray_deflection_texture, ray_inverse_radius_texture, u, u_dot, e_square, delta, alpha, u_ic, u_oc, u0, phi0, t0, alpha0, u1, phi1, t1, alpha1);
 Angle TraceRay(IN(RayDeflectionTexture) ray_deflection_texture,
                IN(RayInverseRadiusTexture) ray_inverse_radius_texture,
                const Real u, const Real u_dot, const Real e_square,
@@ -3889,17 +3897,24 @@ Angle TraceRay(IN(RayDeflectionTexture) ray_deflection_texture,
   // Compute the ray deflection.
   u0 = -1.0;
   u1 = -1.0;
+
   if (e_square < kMu && u > 2.0 / 3.0) {
     return -1.0 * rad;
   }
+
   TimedAngle deflection_apsis;
-  TimedAngle deflection = LookupRayDeflection(ray_deflection_texture, e_square,
-                                              u, deflection_apsis);
+  TimedAngle deflection = LookupRayDeflection(ray_deflection_texture, e_square, u, deflection_apsis);
   Angle ray_deflection = deflection.x;
+
+  // 중력효과 별
   if (u_dot > 0.0) {
-    ray_deflection =
-        e_square < kMu ? 2.0 * deflection_apsis.x - ray_deflection : -1.0 * rad;
+	if(e_square < kMu)//블랙홀의 크기?
+	    ray_deflection = 2.0 * deflection_apsis.x - ray_deflection;//2.0 영역크기(곡률),	영향준것0
+
+	else
+	   ray_deflection = -1.0 * rad;//2.0 영역크기,	영향준것0
   }
+  // 강착원반 교차점
   // Compute the accretion disc intersections.
   Real s = sign(u_dot);
   Angle phi = deflection.x + (s == 1.0 ? pi - delta : delta) + s * alpha;
@@ -3936,6 +3951,7 @@ Angle TraceRay(IN(RayDeflectionTexture) ray_deflection_texture,
   return ray_deflection;
 }
 
+// 무영향
 Angle TraceRay(IN(RayDeflectionTexture) ray_deflection_texture,
                IN(RayInverseRadiusTexture) ray_inverse_radius_texture,
                const Real p_r, const Angle delta, const Angle alpha,
@@ -4010,8 +4026,7 @@ vec3 DefaultDoppler(highp sampler3D doppler_texture, vec3 rgb,
 // used will be the square of this number), and the maximum LOD for which
 // 'StarTextureColor(dir, lod, sub_position)' must be used (for larger LODs,
 // 'StarTextureColor(dir)' is used instead).
-vec3 DefaultStarColor(vec3 dir, float lensing_amplification_factor,
-                      float min_lod) {
+vec3 DefaultStarColor(vec3 dir, float lensing_amplification_factor, float min_lod) {
   // Compute the partial derivatives of dir (continuous across cube edges).
   vec3 dx_dir = dFdx(dir);
   vec3 dy_dir = dFdy(dir);
@@ -4064,12 +4079,15 @@ vec3 DefaultStarColor(vec3 dir, float lensing_amplification_factor,
       }
       vec2 delta_uv;
       vec3 star_color = StarTextureColor(texel_dir, lod, delta_uv);
+	  //vec3 star_color = StarTextureColor(texel_dir);
       vec2 star_uv = uv - texel_uv + delta_uv / lod_width;
       vec2 star_pixel_coords = to_screen_pixel_coords * star_uv;
       vec2 overlap = max(vec2(1.0) - abs(star_pixel_coords), 0.0);
-      color_sum += star_color * overlap.x * overlap.y;
+	  //if(star_color.r!=star_color.g && star_color.g!=star_color.b)
+		color_sum += star_color * overlap.x * overlap.y;
     }
   }
+
   return color_sum * lensing_amplification_factor;
 }
 
@@ -4194,6 +4212,7 @@ vec3 SceneColor(vec4 camera_position, vec3 p, vec4 k_s, vec3 e_tau, vec3 e_w,
     // Clamp the result (otherwise potentially infinite).
     lensing_amplification_factor = min(lensing_amplification_factor, 1e6);
 
+	// 은하계 텍스쳐
     // The galaxy texture contains the radiant intensity of stars, per unit area
     // on the celestial sphere, i.e. radiance values (using omega0 as area unit,
     // with omega0 = 4pi * the solid angle of the center texel of a cube face).
@@ -4204,8 +4223,16 @@ vec3 SceneColor(vec4 camera_position, vec3 p, vec4 k_s, vec3 e_tau, vec3 e_w,
     // texture is a 2048x2048 cubemap, omega0 is 1 / 1024^2).
     float pixel_area = max(omega * (1024.0 * 1024.0), 1.0);
 
-    color += GalaxyColor(d_prime);
-    color += StarColor(d_prime, lensing_amplification_factor / pixel_area);
+    color += GalaxyColor(d_prime); // 은하계 텍스쳐
+
+//if(e_square < kMu-u_dot){
+if(u_dot<0.9)
+
+    color += StarColor(d_prime, lensing_amplification_factor / pixel_area); // 별 텍스쳐
+
+else
+	color += StarColor(d_prime, lensing_amplification_factor / pixel_area); // 별 텍스쳐
+
     color = Doppler(color, doppler_factor);
   }
   if (u1 >= 0.0 && alpha1 > 0.0) {
@@ -4235,6 +4262,12 @@ vec3 SceneColor(vec4 camera_position, vec3 p, vec4 k_s, vec3 e_tau, vec3 e_w,
   return color;
 }
     </script>
+
+<script type="text/javascript">
+function toggle_copyright() {
+	document.getElementById('cv-copyright').classList.toggle('cv-hidden');
+}
+</script>
     <div class="cv-container">
       <canvas id="camera_view" width="400" height="300"></canvas>
       <div id="cv_error_panel" class="cv-error-panel cv-hidden">
@@ -4246,7 +4279,7 @@ vec3 SceneColor(vec4 camera_position, vec3 p, vec4 k_s, vec3 e_tau, vec3 e_w,
         </div>
         <span>Press <em>space</em> to show / hide the User Interface</span>
       </div>
-      <div class="cv-copyright">@2020 Eric Bruneton. 
+      <div class="cv-copyright" id="cv-copyright">@2020 Eric Bruneton. 
         <a href="https://github.com/ebruneton/black_hole_shader"
            target="_blank">
           GitHub project
@@ -4585,6 +4618,13 @@ Shortcut: CTRL + mouse drag">
           </div>
 
         </div>
+        <h3>Copyright</h3>
+		<div class="sp-settings-container">
+			<div class="sp-setting sp-last" 
+               title="Enables copyright">
+            <label for="sp_copyright" onclick="aaaa()">View</label>
+            <input type="checkbox" class="sp_copyright" id="sp_copyright" onclick="toggle_copyright()" checked>
+          </div>
       </details>
     </form>
   </body>
