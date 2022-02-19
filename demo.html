@@ -129,6 +129,10 @@ html, body {
   display: none;
 }
 
+.cv-visible {
+  display: none;
+}
+
 .op-panel {
   position: absolute;
   top: 0;
@@ -2890,7 +2894,7 @@ class OrbitPanel {
 
     this.onSettingsChange();
     this.onOrbitChange();
-    this.toggleVisibility();
+    //this.toggleVisibility();
 
     document.body.addEventListener('keypress', (e) => this.onKeyPress(e));
   }
@@ -3277,7 +3281,7 @@ class SettingsPanel {
 
     this.onSettingsChange();
     this.onOrbitChange();
-    this.toggleVisibility();
+    //this.toggleVisibility();
 
     for (let i = 0; i < 5; ++i) {
       this.rootElement.querySelector(`#sp_target${i}`).addEventListener(
